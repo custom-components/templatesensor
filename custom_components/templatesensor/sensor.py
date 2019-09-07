@@ -20,7 +20,7 @@ class CustomTemplateSensor(Entity):
         """Update the sensor."""
         try:
             self._state = templater.Template(
-                self.config.data.get("template"), self.hass
+                self.config.options.get("template"), self.hass
             ).async_render()
         except Exception as exception:
             self._state = self._state
@@ -43,9 +43,9 @@ class CustomTemplateSensor(Entity):
     @property
     def unit_of_measurement(self):
         """Return the unit_of_measurement of the sensor."""
-        return self.config.data.get("unit")
+        return self.config.options.get("unit")
 
     @property
     def icon(self):
         """Return the icon of the sensor."""
-        return self.config.data.get("icon")
+        return self.config.options.get("icon")

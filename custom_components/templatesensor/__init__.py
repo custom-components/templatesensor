@@ -28,9 +28,12 @@ async def async_setup(hass, config):
 async def async_setup_entry(hass, config_entry):
     """Set up this integration using UI."""
     # Check that all required files are present
+    config_entry.add_update_listener(update_listener)
     file_check = await check_files(hass)
     if not file_check:
         return False
+
+    config_entry.options = config_entry.data
 
     # Add sensor
     hass.async_add_job(
@@ -65,3 +68,10 @@ async def async_remove_entry(hass, config_entry):
         _LOGGER.info("Successfully removed sensor")
     except ValueError:
         pass
+
+
+async def update_listener(hass, entry):
+    """Update listener."""
+    entry.data = entry.options
+    await hass.config_entries.async_forward_entry_unload(entry, "sensor")
+    hass.async_add_job(hass.config_entries.async_forward_entry_setup(entry, "sensor"))

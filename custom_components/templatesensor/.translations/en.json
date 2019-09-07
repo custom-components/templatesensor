@@ -16,5 +16,17 @@
         "error": {
             "template": "There was an issue rendering the template."
         }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "data": {}
+            },
+            "user": {
+                "data": {
+                    "template": "Template*"
+                }
+            }
+        }
     }
 }

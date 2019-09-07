@@ -4,6 +4,7 @@ import logging
 import voluptuous as vol
 
 from homeassistant import config_entries
+from homeassistant.core import callback
 from homeassistant.helpers import template as templater
 
 from .const import DOMAIN
@@ -11,8 +12,7 @@ from .const import DOMAIN
 _LOGGER = logging.getLogger(__name__)
 
 
-@config_entries.HANDLERS.register(DOMAIN)
-class TemplateSensorFlowHandler(config_entries.ConfigFlow):
+class TemplateSensorFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
     """Config flow for templatesensor."""
 
     VERSION = 1
@@ -66,6 +66,11 @@ class TemplateSensorFlowHandler(config_entries.ConfigFlow):
             step_id="user", data_schema=vol.Schema(data_schema), errors=self._errors
         )
 
+    @staticmethod
+    @callback
+    def async_get_options_flow(config_entry):
+        return OptionsFlowHandler(config_entry)
+
     async def _validate_template(self, template):
         """Return true if template is valid."""
         try:
@@ -75,3 +80,25 @@ class TemplateSensorFlowHandler(config_entries.ConfigFlow):
             _LOGGER.error(exception)
             pass
         return False
+
+
+class OptionsFlowHandler(config_entries.OptionsFlow):
+    def __init__(self, config_entry):
+        """Initialize UniFi options flow."""
+        self.config_entry = config_entry
+
+    async def async_step_init(self, user_input=None):
+        """Manage the options."""
+        return await self.async_step_user()
+
+    async def async_step_user(self, user_input=None):
+        """Handle a flow initialized by the user."""
+        if user_input is not None:
+            return self.async_create_entry(title="", data=user_input)
+
+        data_schema = OrderedDict()
+        data_schema[
+            vol.Required("template", default=self.config_entry.options.get("template"))
+        ] = str
+
+        return self.async_show_form(step_id="user", data_schema=vol.Schema(data_schema))

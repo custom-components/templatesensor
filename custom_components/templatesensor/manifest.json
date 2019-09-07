@@ -7,6 +7,5 @@
   "codeowners": [
     "@ludeeus"
   ],
-  "requirements": [],
-  "homeassistant": "0.96.0"
+  "requirements": []
 }
