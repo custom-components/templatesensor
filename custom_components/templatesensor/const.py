@@ -2,7 +2,7 @@
 # Base component constants
 DOMAIN = "templatesensor"
 DOMAIN_DATA = f"{DOMAIN}_data"
-VERSION = "0.0.1"
+VERSION = "0.1.0"
 PLATFORMS = ["sensor"]
 REQUIRED_FILES = [
     ".translations/en.json",
