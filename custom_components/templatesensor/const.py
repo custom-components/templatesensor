@@ -2,10 +2,10 @@
 # Base component constants
 DOMAIN = "templatesensor"
 DOMAIN_DATA = f"{DOMAIN}_data"
-VERSION = "0.1.0"
+VERSION = "0.1.2"
 PLATFORMS = ["sensor"]
 REQUIRED_FILES = [
-    ".translations/en.json",
+    "translations/en.json",
     "const.py",
     "config_flow.py",
     "manifest.json",
