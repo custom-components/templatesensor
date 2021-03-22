@@ -97,8 +97,12 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
         data_schema = {
             vol.Required("name", default=self.config_entry.options.get("name")): str,
             vol.Required("template", default=self.config_entry.options.get("template")): str,
-            vol.Optional("icon", default=self.config_entry.options.get("icon")): str,
-            vol.Optional("unit", default=self.config_entry.options.get("unit")): str,
+            vol.Optional(
+                "icon", description={"suggested_value": self.config_entry.options.get("icon")}
+            ): str,
+            vol.Optional(
+                "unit", description={"suggested_value": self.config_entry.options.get("unit")}
+            ): str,
         }
 
         return self.async_show_form(step_id="user", data_schema=vol.Schema(data_schema))
