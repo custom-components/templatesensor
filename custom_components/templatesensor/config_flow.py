@@ -28,9 +28,7 @@ class TemplateSensorFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             valid = await self._validate_template(user_input["template"])
             if valid:
-                return self.async_create_entry(
-                    title=user_input["name"], data=user_input
-                )
+                return self.async_create_entry(title=user_input["name"], data=user_input)
             else:
                 self._errors["base"] = "template"
 
@@ -96,9 +94,11 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
         if user_input is not None:
             return self.async_create_entry(title="", data=user_input)
 
-        data_schema = OrderedDict()
-        data_schema[
-            vol.Required("template", default=self.config_entry.options.get("template"))
-        ] = str
+        data_schema = {
+            vol.Required("name", default=self.config_entry.options.get("name")): str,
+            vol.Required("template", default=self.config_entry.options.get("template")): str,
+            vol.Optional("icon", default=self.config_entry.options.get("icon")): str,
+            vol.Optional("unit", default=self.config_entry.options.get("unit")): str,
+        }
 
         return self.async_show_form(step_id="user", data_schema=vol.Schema(data_schema))
