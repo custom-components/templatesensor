@@ -24,7 +24,10 @@
             },
             "user": {
                 "data": {
-                    "template": "Template*"
+                    "name": "Name*",
+                    "template": "Template*",
+                    "icon": "Icon",
+                    "unit": "Unit of measurement"
                 }
             }
         }
