@@ -1,6 +1,6 @@
 """Sensor platform for templatesensor."""
-from homeassistant.helpers.entity import Entity
 from homeassistant.helpers import template as templater
+from homeassistant.helpers.entity import Entity
 
 
 async def async_setup_entry(hass, config_entry, async_add_devices):
@@ -49,3 +49,8 @@ class CustomTemplateSensor(Entity):
     def icon(self):
         """Return the icon of the sensor."""
         return self.config.options.get("icon")
+
+    @property
+    def device_class(self):
+        """Return the device_class of the sensor."""
+        return self.config.options.get("device_class")

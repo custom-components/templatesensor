@@ -1,8 +1,10 @@
 """Constants for templatesensor."""
-# Base component constants
+from homeassistant.components.sensor import DEVICE_CLASSES
+
+DEVICE_CLASSES = {device_class: device_class for device_class in DEVICE_CLASSES}
 DOMAIN = "templatesensor"
 DOMAIN_DATA = f"{DOMAIN}_data"
-VERSION = "0.1.3"
+VERSION = "0.2.0"
 PLATFORMS = ["sensor"]
 REQUIRED_FILES = [
     "translations/en.json",

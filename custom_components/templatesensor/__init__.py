@@ -4,16 +4,15 @@ Component to integrate with blueprint.
 For more details about this component, please refer to
 https://github.com/custom-components/blueprint
 """
+import logging
 import os
 from datetime import timedelta
-import logging
-import voluptuous as vol
+
 from homeassistant import config_entries
-import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers import discovery
 from homeassistant.util import Throttle
 
-from .const import DOMAIN_DATA, DOMAIN, ISSUE_URL, PLATFORMS, REQUIRED_FILES, VERSION
+from .const import DOMAIN, DOMAIN_DATA, ISSUE_URL, PLATFORMS, REQUIRED_FILES, VERSION
 
 MIN_TIME_BETWEEN_UPDATES = timedelta(seconds=30)
 
