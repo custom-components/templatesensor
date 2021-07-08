@@ -16,6 +16,10 @@ class CustomTemplateSensor(Entity):
         self.config = config
         self._state = None
 
+    @property
+    def should_poll(self):
+        return self.config.data.get("should_poll", True)
+
     async def async_update(self):
         """Update the sensor."""
         try:

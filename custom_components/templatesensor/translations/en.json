@@ -10,7 +10,8 @@
                     "template": "Template*",
                     "icon": "Icon",
                     "unit": "Unit of measurement",
-                    "device_class": "Device class"
+                    "device_class": "Device class",
+                    "should_poll": "Should poll"
                 }
             }
         },
@@ -29,7 +30,8 @@
                     "template": "Template*",
                     "icon": "Icon",
                     "unit": "Unit of measurement",
-                    "device_class": "Device class"
+                    "device_class": "Device class",
+                    "should_poll": "Should poll"
                 }
             }
         }

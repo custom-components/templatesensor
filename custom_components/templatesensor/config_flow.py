@@ -46,6 +46,7 @@ class TemplateSensorFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         icon = ""
         unit = ""
         device_class = ""
+        should_poll = True
 
         if user_input is not None:
             if "name" in user_input:
@@ -58,6 +59,8 @@ class TemplateSensorFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                 unit = user_input["unit"]
             if "device_class" in user_input:
                 device_class = user_input["device_class"]
+            if "should_poll" in user_input:
+                should_poll = user_input["should_poll"]
 
         data_schema = vol.Schema(
             {
@@ -68,6 +71,7 @@ class TemplateSensorFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                 vol.Optional("device_class", default=device_class): vol.In(
                     DEVICE_CLASSES
                 ),
+                vol.Optional("should_poll", default=should_poll): bool,
             }
         )
         return self.async_show_form(
@@ -130,6 +134,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                         "suggested_value": self.config_entry.options.get("device_class")
                     },
                 ): vol.In(DEVICE_CLASSES),
+                vol.Optional("should_poll", default=self.config_entry.options.get("should_poll", True)): bool,
             }
         )
 
