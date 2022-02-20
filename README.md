@@ -1,17 +1,10 @@
 # templatesensor
 
-[![GitHub Release][releases-shield]][releases]
-[![GitHub Activity][commits-shield]][commits]
-[![License][license-shield]](LICENSE.md)
+Please do not use this, use https://www.home-assistant.io/integrations/template/ instead.
 
-[![hacs][hacsbadge]](hacs)
-![Project Maintenance][maintenance-shield]
-[![BuyMeCoffee][buymecoffeebadge]][buymecoffee]
-
-[![Discord][discord-shield]][discord]
-[![Community Forum][forum-shield]][forum]
-
-_Add template sensors from the UI._
+<details>
+  <summary>Old instructions</summary>
+  
 
 ## Installation
 
@@ -64,3 +57,5 @@ If you want to contribute to this please read the [Contribution guidelines](CONT
 [maintenance-shield]: https://img.shields.io/badge/maintainer-Joakim%20Sørensen%20%40ludeeus-blue.svg?style=for-the-badge
 [releases-shield]: https://img.shields.io/github/release/custom-components/templatesensor.svg?style=for-the-badge
 [releases]: https://github.com/custom-components/templatesensor/releases
+
+</details>
