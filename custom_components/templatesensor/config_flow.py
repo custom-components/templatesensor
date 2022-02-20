@@ -1,13 +1,12 @@
 """Adds config flow for templatesensor."""
-from collections import OrderedDict
 import logging
-import voluptuous as vol
 
+import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.core import callback
 from homeassistant.helpers import template as templater
 
-from .const import DOMAIN
+from .const import DEVICE_CLASSES, DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -28,7 +27,9 @@ class TemplateSensorFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             valid = await self._validate_template(user_input["template"])
             if valid:
-                return self.async_create_entry(title=user_input["name"], data=user_input)
+                return self.async_create_entry(
+                    title=user_input["name"], data=user_input
+                )
             else:
                 self._errors["base"] = "template"
 
@@ -44,6 +45,8 @@ class TemplateSensorFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         template = ""
         icon = ""
         unit = ""
+        device_class = ""
+        should_poll = True
 
         if user_input is not None:
             if "name" in user_input:
@@ -54,14 +57,25 @@ class TemplateSensorFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                 icon = user_input["icon"]
             if "unit" in user_input:
                 unit = user_input["unit"]
+            if "device_class" in user_input:
+                device_class = user_input["device_class"]
+            if "should_poll" in user_input:
+                should_poll = user_input["should_poll"]
 
-        data_schema = OrderedDict()
-        data_schema[vol.Required("name", default=name)] = str
-        data_schema[vol.Required("template", default=template)] = str
-        data_schema[vol.Optional("icon", default=icon)] = str
-        data_schema[vol.Optional("unit", default=unit)] = str
+        data_schema = vol.Schema(
+            {
+                vol.Required("name", default=name): str,
+                vol.Required("template", default=template): str,
+                vol.Optional("icon", default=icon): str,
+                vol.Optional("unit", default=unit): str,
+                vol.Optional("device_class", default=device_class): vol.In(
+                    DEVICE_CLASSES
+                ),
+                vol.Optional("should_poll", default=should_poll): bool,
+            }
+        )
         return self.async_show_form(
-            step_id="user", data_schema=vol.Schema(data_schema), errors=self._errors
+            step_id="user", data_schema=data_schema, errors=self._errors
         )
 
     @staticmethod
@@ -94,15 +108,34 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
         if user_input is not None:
             return self.async_create_entry(title="", data=user_input)
 
-        data_schema = {
-            vol.Required("name", default=self.config_entry.options.get("name")): str,
-            vol.Required("template", default=self.config_entry.options.get("template")): str,
-            vol.Optional(
-                "icon", description={"suggested_value": self.config_entry.options.get("icon")}
-            ): str,
-            vol.Optional(
-                "unit", description={"suggested_value": self.config_entry.options.get("unit")}
-            ): str,
-        }
+        data_schema = vol.Schema(
+            {
+                vol.Required(
+                    "name", default=self.config_entry.options.get("name")
+                ): str,
+                vol.Required(
+                    "template", default=self.config_entry.options.get("template")
+                ): str,
+                vol.Optional(
+                    "icon",
+                    description={
+                        "suggested_value": self.config_entry.options.get("icon")
+                    },
+                ): str,
+                vol.Optional(
+                    "unit",
+                    description={
+                        "suggested_value": self.config_entry.options.get("unit")
+                    },
+                ): str,
+                vol.Optional(
+                    "device_class",
+                    description={
+                        "suggested_value": self.config_entry.options.get("device_class")
+                    },
+                ): vol.In(DEVICE_CLASSES),
+                vol.Optional("should_poll", default=self.config_entry.options.get("should_poll", True)): bool,
+            }
+        )
 
-        return self.async_show_form(step_id="user", data_schema=vol.Schema(data_schema))
+        return self.async_show_form(step_id="user", data_schema=data_schema)

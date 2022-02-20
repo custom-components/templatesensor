@@ -9,7 +9,9 @@
                     "name": "Name*",
                     "template": "Template*",
                     "icon": "Icon",
-                    "unit": "Unit of measurement"
+                    "unit": "Unit of measurement",
+                    "device_class": "Device class",
+                    "should_poll": "Should poll"
                 }
             }
         },
@@ -27,7 +29,9 @@
                     "name": "Name*",
                     "template": "Template*",
                     "icon": "Icon",
-                    "unit": "Unit of measurement"
+                    "unit": "Unit of measurement",
+                    "device_class": "Device class",
+                    "should_poll": "Should poll"
                 }
             }
         }
